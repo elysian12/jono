@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:jono/modules/splash/views/onboarding_page.dart';
 
 import '../modules/modules.dart';
 
@@ -25,8 +26,16 @@ class MyRouter {
     switch (settings.name) {
       case HomeScreen.routeName:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case SplashPage.routeName:
+        return MaterialPageRoute(builder: (_) => const SplashPage());
+      case OnboardingPage.routeName:
+        return MaterialPageRoute(builder: (_) => const OnboardingPage());
       case LandingPage.routeName:
         return MaterialPageRoute(builder: (_) => const LandingPage());
+      case LoginPage.routeName:
+        return MaterialPageRoute(builder: (_) => const LoginPage());
+      case SignupPage.routeName:
+        return MaterialPageRoute(builder: (_) => const SignupPage());
 
       default:
         return _errorRoute();

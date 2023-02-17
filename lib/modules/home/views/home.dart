@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jono/common/constants/app_constants.dart';
+import 'package:jono/common/constants/colors.dart';
 import 'package:jono/data/blocs/geolocation/geolocation_bloc.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:jono/modules/home/views/info_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "/home";
@@ -18,8 +20,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final Completer<GoogleMapController> mapcontroller =
+  final Completer<GoogleMapController> mapcompleter =
       Completer<GoogleMapController>();
+
+  GoogleMapController? _mapController;
+
+  StreamSubscription? _mapIdleSubscription;
+  InfoWidgetRoute? _infoWidgetRoute;
+
+  PointObject point = PointObject(
+    child: const Text('Lorem Ipsum'),
+    location: const LatLng(47.6, 8.8796),
+  );
 
   late String silverMapStyle;
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
@@ -49,6 +61,46 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  _onTap(PointObject point, BuildContext context) async {
+    final RenderBox renderBox = context.findRenderObject()! as RenderBox;
+    Rect itemRect = renderBox.localToGlobal(Offset.zero) & renderBox.size;
+
+    _infoWidgetRoute = InfoWidgetRoute(
+      height: 150,
+      child: point.child,
+      buildContext: context,
+      textStyle: const TextStyle(
+        fontSize: 14,
+        color: Colors.black,
+      ),
+      mapsWidgetSize: itemRect,
+      barrierLabel: '',
+    );
+
+    await _mapController!.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(
+            point.location.latitude - 0.0001,
+            point.location.longitude,
+          ),
+          zoom: 15,
+        ),
+      ),
+    );
+    await _mapController!.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(
+            point.location.latitude,
+            point.location.longitude,
+          ),
+          zoom: 15,
+        ),
+      ),
+    );
+  }
+
   Future<void> addHosipitalMarker() async {
     for (var element in AppConstants.hospitalsList) {
       markers.add(
@@ -59,7 +111,28 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: markerIcon,
           consumeTapEvents: true,
           onTap: () {
-            log(element.toJson().toString());
+            _onTap(
+                PointObject(
+                    child: InkWell(
+                      onTap: () {
+                        log(element.toString());
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        color: AppColors.primaryColor,
+                        child: Column(
+                          children: [
+                            Image.network(
+                              'https://static.vecteezy.com/system/resources/thumbnails/004/493/181/small/hospital-building-for-healthcare-background-illustration-with-ambulance-car-doctor-patient-nurses-and-medical-clinic-exterior-free-vector.jpg',
+                              height: 100,
+                            ),
+                            const Text('Hospital'),
+                          ],
+                        ),
+                      ),
+                    ),
+                    location: element),
+                context);
           },
           // infoWindow: InfoWindow(title: 'Hospital $element'),
         ),
@@ -80,34 +153,41 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           if (state is GeolocationLoadedState) {
-            return Stack(
-              children: [
-                Positioned.fill(
-                  child: GoogleMap(
-                    onMapCreated: (controller) async {
-                      mapcontroller.complete(controller);
-                      controller.setMapStyle(silverMapStyle);
-                      await addCustomIcon();
-                      await addHosipitalMarker();
-                    },
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                        state.position.latitude,
-                        state.position.longitude,
-                      ),
-                      zoom: 14.4746,
-                    ),
-                    markers: markers,
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: false,
-                  ),
+            return GoogleMap(
+              onMapCreated: (controller) async {
+                _mapController = controller;
+                mapcompleter.complete(controller);
+                controller.setMapStyle(silverMapStyle);
+                await addCustomIcon();
+                await addHosipitalMarker();
+              },
+              initialCameraPosition: CameraPosition(
+                target: LatLng(
+                  state.position.latitude,
+                  state.position.longitude,
                 ),
-                Positioned(
-                  // top: {offsetY},
-                  // left: {offsetX},
-                  child: Container(),
-                )
-              ],
+                zoom: 14.4746,
+              ),
+              onCameraMove: (newPosition) {
+                _mapIdleSubscription?.cancel();
+                _mapIdleSubscription =
+                    Future.delayed(const Duration(milliseconds: 150))
+                        .asStream()
+                        .listen((_) {
+                  if (_infoWidgetRoute != null) {
+                    Navigator.of(context, rootNavigator: true)
+                        .push(_infoWidgetRoute!)
+                        .then<void>(
+                      (newValue) {
+                        _infoWidgetRoute = null;
+                      },
+                    );
+                  }
+                });
+              },
+              markers: markers,
+              myLocationEnabled: true,
+              myLocationButtonEnabled: false,
             );
           }
           return const Center(
@@ -117,4 +197,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+class PointObject {
+  final Widget child;
+  final LatLng location;
+
+  PointObject({required this.child, required this.location});
 }

@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
               title: "Jono",
               theme: appTheme(),
               onGenerateRoute: MyRouter.generateRoute,
-              initialRoute: HomeScreen.routeName,
+              initialRoute: SplashPage.routeName,
             );
           },
         ),

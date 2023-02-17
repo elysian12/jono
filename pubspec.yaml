@@ -42,6 +42,7 @@ flutter:
     - assets/
     - assets/map_style/
     - assets/svgs/
+    - assets/images/
   
 
   
