@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jono/modules/splash/views/onboarding_page.dart';
 
 import '../modules/modules.dart';
+import '../modules/profile/profile_page.dart';
 
 class MyRouter {
   static Route<dynamic> _errorRoute() {
@@ -26,6 +27,8 @@ class MyRouter {
     switch (settings.name) {
       case HomeScreen.routeName:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case ProfilePage.routeName:
+        return MaterialPageRoute(builder: (_) => const ProfilePage());
       case SplashPage.routeName:
         return MaterialPageRoute(builder: (_) => const SplashPage());
       case OnboardingPage.routeName:
