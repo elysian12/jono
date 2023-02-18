@@ -1,4 +1,4 @@
-package com.example.jono
+package com.elysian.jono
 
 import io.flutter.embedding.android.FlutterActivity
 
