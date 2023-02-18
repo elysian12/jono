@@ -7,6 +7,8 @@ import 'package:jono/common/utils/utils.dart';
 import 'package:jono/common/widgets/common_textfield.dart';
 import 'package:jono/modules/auth/blocs/auth/auth_bloc.dart';
 
+import '../../modules.dart';
+
 class LoginPage extends StatefulWidget {
   static const String routeName = '/login-page';
   const LoginPage({Key? key}) : super(key: key);
@@ -92,6 +94,10 @@ class _LoginPageState extends State<LoginPage> {
                 listener: (context, state) {
                   if (state is AuthErrorState) {
                     context.showToast(message: state.message, isError: true);
+                  }
+                  if (state is AuthSignedInState) {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, BottomPage.routeName, (route) => false);
                   }
                 },
                 builder: (context, state) {
