@@ -10,6 +10,7 @@ import 'package:jono/common/utils/utils.dart';
 import 'package:jono/common/widgets/common_textfield.dart';
 import 'package:jono/modules/auth/blocs/auth/auth_bloc.dart';
 import 'package:jono/modules/home/views/home.dart';
+import 'package:jono/modules/modules.dart';
 
 class SignupPage extends StatefulWidget {
   static const String routeName = '/signup-page';
@@ -96,27 +97,6 @@ class _SignupPageState extends State<SignupPage> {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  Text(
-                    'Hospital',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: AppColors.primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                  ),
-                  const Spacer(),
-                  CupertinoSwitch(
-                    activeColor: AppColors.primaryColor,
-                    value: isHospital,
-                    onChanged: (value) {
-                      setState(() => isHospital = value);
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
                   Checkbox(
                     activeColor: AppColors.primaryColor,
                     shape: RoundedRectangleBorder(
@@ -174,7 +154,7 @@ class _SignupPageState extends State<SignupPage> {
                   }
                   if (state is AuthSignedInState) {
                     Navigator.pushNamedAndRemoveUntil(
-                        context, HomeScreen.routeName, (route) => false);
+                        context, BottomPage.routeName, (route) => false);
                   }
                 },
                 builder: (context, state) {

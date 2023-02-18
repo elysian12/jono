@@ -36,6 +36,8 @@ class MyRouter {
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case SignupPage.routeName:
         return MaterialPageRoute(builder: (_) => const SignupPage());
+      case BottomPage.routeName:
+        return MaterialPageRoute(builder: (_) => const BottomPage());
 
       default:
         return _errorRoute();

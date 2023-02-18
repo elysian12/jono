@@ -3,7 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jono/data/blocs/autocomplete/auto_complete_bloc.dart';
+import 'package:jono/data/blocs/places/places_bloc.dart';
 import 'package:jono/data/repositories/auth/auth_repository.dart';
+import 'package:jono/data/repositories/places/places_repository.dart';
 import 'package:jono/data/services/remote/firestore_service.dart';
 import 'package:jono/modules/auth/blocs/auth/auth_bloc.dart';
 
@@ -37,6 +40,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(
           create: (_) => GeolocationRepository(),
         ),
+        RepositoryProvider(
+          create: (_) => PlacesRepository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -50,6 +56,16 @@ class MyApp extends StatelessWidget {
               authRepository: context.read<AuthRepository>(),
             ),
           ),
+          BlocProvider(
+            create: (context) => PlacesBloc(
+              placesRepository: context.read<PlacesRepository>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => AutoCompleteBloc(
+              placesRepository: context.read<PlacesRepository>(),
+            ),
+          ),
         ],
         child: ScreenUtilInit(
           designSize: const Size(360, 800),
@@ -61,7 +77,7 @@ class MyApp extends StatelessWidget {
               title: "Jono",
               theme: appTheme(),
               onGenerateRoute: MyRouter.generateRoute,
-              initialRoute: SplashPage.routeName,
+              initialRoute: HomeScreen.routeName,
             );
           },
         ),
