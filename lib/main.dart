@@ -6,13 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jono/data/repositories/auth/auth_repository.dart';
 import 'package:jono/data/services/remote/firestore_service.dart';
 import 'package:jono/modules/auth/blocs/auth/auth_bloc.dart';
+
 import './common/constants/theme.dart';
 import './modules/modules.dart';
 import './routes/router.dart';
 import 'data/blocs/geolocation/geolocation_bloc.dart';
 import 'data/repositories/geolocation/geolocation_repository.dart';
 import 'firebase_options.dart';
-import 'modules/profile/profile_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
               title: "Jono",
               theme: appTheme(),
               onGenerateRoute: MyRouter.generateRoute,
-              initialRoute: ProfilePage.routeName,
+              initialRoute: SplashPage.routeName,
             );
           },
         ),
