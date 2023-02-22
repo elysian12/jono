@@ -27,6 +27,10 @@ class MyRouter {
     switch (settings.name) {
       case HomeScreen.routeName:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case SchedulePage.routeName:
+        return MaterialPageRoute(builder: (_) => const SchedulePage());
+      case ScheduledAppointments.routeName:
+        return MaterialPageRoute(builder: (_) => const ScheduledAppointments());
       case ProfilePage.routeName:
         return MaterialPageRoute(builder: (_) => const ProfilePage());
       case SplashPage.routeName:
