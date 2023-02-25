@@ -1,5 +1,4 @@
 import 'dart:convert' as convert;
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -18,7 +17,7 @@ class PlacesRepository implements BasePlacesRepository {
   FutureResult<List<PlaceAutoComplete>> getAutoComplete(
       String searchInput) async {
     final String url =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$searchInput&types=$types&key=$key';
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$searchInput&components=country:in&key=$key';
 
     try {
       var response = await http.get(Uri.parse(url));

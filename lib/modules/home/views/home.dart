@@ -32,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
   StreamSubscription? _mapIdleSubscription;
   InfoWidgetRoute? _infoWidgetRoute;
 
+  late TextEditingController searchController;
+
   PointObject point = PointObject(
     child: const Text('Lorem Ipsum'),
     location: const LatLng(47.6, 8.8796),
@@ -49,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     _loadMapStyles();
     super.initState();
+    searchController = TextEditingController();
   }
 
   Future _loadMapStyles() async {
@@ -247,6 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         children: [
                           SearchField(
+                            controller: searchController,
                             onChanged: (value) {
                               context.read<AutoCompleteBloc>().add(
                                     LoadAutoCompleteEvent(searchInput: value),
@@ -277,6 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               color: Colors.white),
                                         ),
                                         onTap: () {
+                                          searchController.clear();
                                           context.read<PlacesBloc>().add(
                                                 LoadPlaceEvent(
                                                   placeId: state
@@ -324,16 +329,19 @@ class PointObject {
 
 class SearchField extends StatelessWidget {
   final Function(String)? onChanged;
+  final TextEditingController controller;
 
   const SearchField({
     Key? key,
     this.onChanged,
+    required this.controller,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       onChanged: onChanged,
+      controller: controller,
       decoration: InputDecoration(
         hintText: 'Search Hospital',
         fillColor: AppColors.whiteColor,

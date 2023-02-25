@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jono/common/constants/colors.dart';
 import 'package:jono/modules/bottom_view/bloc/bottom_nav_bloc.dart';
 import 'package:jono/modules/home/views/home.dart';
+import 'package:jono/modules/modules.dart';
+import 'package:jono/modules/profile/profile_page.dart';
 
 class BottomPage extends StatelessWidget {
   static const String routeName = '/bottom-page';
@@ -22,21 +24,8 @@ class BottomPage extends StatelessWidget {
                 index: state.currentIndex,
                 children: const [
                   HomeScreen(),
-                  Scaffold(
-                    body: Center(
-                      child: Text('Doctor'),
-                    ),
-                  ),
-                  Scaffold(
-                    body: Center(
-                      child: Text('Appointments'),
-                    ),
-                  ),
-                  Scaffold(
-                    body: Center(
-                      child: Text('Profile'),
-                    ),
-                  ),
+                  ScheduledAppointments(),
+                  ProfilePage(),
                 ],
               );
             }
@@ -63,7 +52,7 @@ class BottomNavBar extends StatelessWidget {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: List.generate(
-                4,
+                3,
                 (index) => InkWell(
                   onTap: () => context
                       .read<BottomNavBloc>()
@@ -89,8 +78,6 @@ class BottomNavBar extends StatelessWidget {
       case 0:
         return 'assets/svgs/Home.svg';
       case 1:
-        return 'assets/svgs/Message.svg';
-      case 2:
         return 'assets/svgs/Calendar.svg';
       default:
         return 'assets/svgs/Profile.svg';

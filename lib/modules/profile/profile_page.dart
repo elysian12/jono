@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:jono/common/constants/colors.dart';
+import 'package:jono/modules/modules.dart';
 
 class ProfilePage extends StatelessWidget {
   static const String routeName = '/profile-page';
@@ -28,11 +29,11 @@ class ProfilePage extends StatelessWidget {
               color: Colors.transparent,
               child: Column(
                 children: [
-                  ProfileImage(),
+                  const ProfileImage(),
                   SizedBox(
                     height: 15.h,
                   ),
-                  Text(
+                  const Text(
                     "Profile Name",
                     style: TextStyle(
                       color: Colors.white,
@@ -43,10 +44,10 @@ class ProfilePage extends StatelessWidget {
                   SizedBox(
                     height: 25.h,
                   ),
-                  HealthData(),
+                  const HealthData(),
                 ],
               )),
-          CustomBottomSheet(),
+          const CustomBottomSheet(),
         ],
       ),
     );
@@ -60,14 +61,14 @@ class ProfileImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        CircleAvatar(
+        const CircleAvatar(
           radius: 40,
           backgroundImage: AssetImage('assets/images/profiledummy.png'),
         ),
         Positioned(
           left: 45.w,
           top: 50.h,
-          child: CircleAvatar(
+          child: const CircleAvatar(
             backgroundColor: Colors.white,
             radius: 15,
             child: Icon(
@@ -88,7 +89,7 @@ class CustomBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 438.h,
+      height: 380.h,
       color: Colors.transparent,
       child: Container(
           decoration: const BoxDecoration(
@@ -103,56 +104,60 @@ class CustomBottomSheet extends StatelessWidget {
                 height: 30.h,
               ),
               optionsRow(
-                  Icon(
+                  const Icon(
                     Icons.heart_broken_rounded,
                     color: Color(0xff199A8E),
                   ),
                   "My Saved"),
               optionsRow(
-                  Icon(
+                  const Icon(
                     Icons.notes,
                     color: Color(0xff199A8E),
                   ),
                   "Appointment"),
               optionsRow(
-                  Icon(
+                  const Icon(
                     Icons.account_balance_wallet_outlined,
                     color: Color(0xff199A8E),
                   ),
                   "Payment method"),
               optionsRow(
-                  Icon(
+                  const Icon(
                     Icons.message_outlined,
                     color: Color(0xff199A8E),
                   ),
                   "FAQs"),
-              Container(
-                height: 70.h,
-                padding: EdgeInsets.only(left: 20, right: 15),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Color(0xffE8F3F1),
-                      child: Icon(
-                        Icons.error_outline,
-                        color: Colors.red,
+              InkWell(
+                onTap: () => Navigator.pushNamedAndRemoveUntil(
+                    context, LandingPage.routeName, (route) => false),
+                child: Container(
+                  height: 70.h,
+                  padding: const EdgeInsets.only(left: 20, right: 15),
+                  child: Row(
+                    children: [
+                      const CircleAvatar(
+                        backgroundColor: Color(0xffE8F3F1),
+                        child: Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Text(
-                      "Logout",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.red),
-                    ),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios_sharp,
-                    ),
-                  ],
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      const Text(
+                        "Logout",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.red),
+                      ),
+                      const Spacer(),
+                      const Icon(
+                        Icons.arrow_forward_ios_sharp,
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],
@@ -167,22 +172,22 @@ optionsRow(
 ) {
   return Container(
     height: 70.h,
-    padding: EdgeInsets.only(left: 20, right: 15),
+    padding: const EdgeInsets.only(left: 20, right: 15),
     child: Row(
       children: [
         CircleAvatar(
-          backgroundColor: Color(0xffE8F3F1),
+          backgroundColor: const Color(0xffE8F3F1),
           child: iconz,
         ),
         SizedBox(
           width: 10.w,
         ),
         Text(
-          "$text",
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          text,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
         ),
-        Spacer(),
-        Icon(
+        const Spacer(),
+        const Icon(
           Icons.arrow_forward_ios_sharp,
         ),
       ],
@@ -203,7 +208,7 @@ class HealthData extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             details(
-                Icon(
+                const Icon(
                   Icons.heart_broken_outlined,
                   color: Colors.white,
                   size: 45,
@@ -216,7 +221,7 @@ class HealthData extends StatelessWidget {
               thickness: 1,
             ),
             details(
-                Icon(
+                const Icon(
                   Icons.fitbit_rounded,
                   size: 45,
                   color: Colors.white,
@@ -229,7 +234,7 @@ class HealthData extends StatelessWidget {
               thickness: 1,
             ),
             details(
-                Icon(
+                const Icon(
                   Icons.sports_gymnastics,
                   size: 45,
                   color: Colors.white,
@@ -244,7 +249,7 @@ class HealthData extends StatelessWidget {
 
   details(Icon icon, String text, String text2) {
     return Padding(
-      padding: EdgeInsets.all(13),
+      padding: const EdgeInsets.all(13),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -252,11 +257,11 @@ class HealthData extends StatelessWidget {
           icon,
           Text(
             text,
-            style: TextStyle(fontSize: 10, color: Colors.white),
+            style: const TextStyle(fontSize: 10, color: Colors.white),
           ),
           Text(
             text2,
-            style: TextStyle(fontSize: 16, color: Colors.white),
+            style: const TextStyle(fontSize: 16, color: Colors.white),
           ),
         ],
       ),
