@@ -5,3 +5,5 @@ export './splash/views/landing_page.dart';
 export './auth/views/login_page.dart';
 export './auth/views/signup_page.dart';
 export './bottom_view/views/bottom_view.dart';
+export './schedule/views/schedule.dart';
+export './scheduled/views/scheduled.dart';
