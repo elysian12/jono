@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jono/common/constants/colors.dart';
+import 'package:jono/modules/bottom_view/views/bottom_view.dart';
 import 'package:jono/modules/splash/views/onboarding_page.dart';
 
 class SplashPage extends StatefulWidget {
@@ -15,8 +18,15 @@ class _SplashPageState extends State<SplashPage> {
   void navigate() async {
     if (mounted) {
       Future.delayed(const Duration(seconds: 1)).then(
-        (value) => Navigator.pushNamedAndRemoveUntil(
-            context, OnboardingPage.routeName, (route) => false),
+        (value) {
+          if (FirebaseAuth.instance.currentUser != null) {
+            return Navigator.pushNamedAndRemoveUntil(
+                context, BottomPage.routeName, (route) => false);
+          }
+
+          return Navigator.pushNamedAndRemoveUntil(
+              context, OnboardingPage.routeName, (route) => false);
+        },
       );
     }
   }

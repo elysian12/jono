@@ -16,7 +16,10 @@ dependencies:
 
   equatable: ^2.0.5
   flutter_bloc: ^8.1.1
-  flutter_screenutil: ^5.6.0
+  flutter_screenutil:
+    git:
+      url: https://github.com/dmakeev/flutter_screenutil
+      ref: fix-463
   google_maps_flutter: ^2.2.2
   geolocator: ^9.0.2
 
